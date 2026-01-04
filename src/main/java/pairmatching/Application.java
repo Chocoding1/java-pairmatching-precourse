@@ -1,7 +1,12 @@
 package pairmatching;
 
+import pairmatching.config.AppConfig;
+import pairmatching.controller.MatchingController;
+
 public class Application {
     public static void main(String[] args) {
-        System.out.println("branch 생성");
+        AppConfig appConfig = new AppConfig();
+        MatchingController matchingController = appConfig.matchingController();
+        matchingController.run();
     }
 }
