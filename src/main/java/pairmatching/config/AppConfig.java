@@ -2,6 +2,7 @@ package pairmatching.config;
 
 import pairmatching.controller.MatchingController;
 import pairmatching.file.CrewReader;
+import pairmatching.service.MatchingService;
 import pairmatching.view.InputView;
 
 public class AppConfig {
@@ -9,10 +10,11 @@ public class AppConfig {
     private MatchingController matchingController;
     private CrewReader crewReader;
     private InputView inputView;
+    private MatchingService matchingService;
 
     public MatchingController matchingController() {
         if (matchingController == null) {
-            matchingController = new MatchingController(crewReader(), inputView());
+            matchingController = new MatchingController(crewReader(), inputView(), matchingService());
         }
         return matchingController;
     }
@@ -22,6 +24,13 @@ public class AppConfig {
             crewReader = new CrewReader();
         }
         return crewReader;
+    }
+
+    private MatchingService matchingService() {
+        if (matchingService == null) {
+            matchingService = new MatchingService();
+        }
+        return matchingService;
     }
 
     private InputView inputView() {
