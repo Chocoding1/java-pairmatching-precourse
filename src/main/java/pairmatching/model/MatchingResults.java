@@ -2,6 +2,7 @@ package pairmatching.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import pairmatching.exception.PairNotFoundException;
 
 public class MatchingResults {
 
@@ -40,7 +41,7 @@ public class MatchingResults {
                 return matchingResult;
             }
         }
-        throw new IllegalArgumentException("[ERROR] 매칭 이력이 없습니다.");
+        throw new PairNotFoundException("[ERROR] 매칭 이력이 없습니다.");
     }
 
     public void reset() {

@@ -2,7 +2,9 @@ package pairmatching.controller;
 
 import static pairmatching.handler.ExceptionHandler.*;
 
+import java.util.Collections;
 import java.util.List;
+import pairmatching.exception.PairNotFoundException;
 import pairmatching.file.CrewReader;
 import pairmatching.model.BackendGroup;
 import pairmatching.model.FrontendGroup;
@@ -50,7 +52,9 @@ public class MatchingController {
 
             if (functionNumber.isTwo()) {
                 MatchingResult matchingResult = retryUntilSuccess(this::findMatchingResult);
-                outputView.printMatchingResult(matchingResult);
+                if (matchingResult.isSuccess()) {
+                    outputView.printMatchingResult(matchingResult);
+                }
                 continue;
             }
 
@@ -108,7 +112,12 @@ public class MatchingController {
 
     private MatchingResult findMatchingResult() {
         MissionInfo missionInfo = retryUntilSuccess(this::readMissionDetail);
-        return matchingService.findMatchingResultByMissionInfo(missionInfo);
+        try {
+            return matchingService.findMatchingResultByMissionInfo(missionInfo);
+        } catch (PairNotFoundException e) {
+            System.out.println(e.getMessage());
+            return new MatchingResult(missionInfo, false, Collections.emptyList());
+        }
     }
 
     private String readRematch() {
