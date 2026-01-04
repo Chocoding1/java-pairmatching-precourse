@@ -3,12 +3,12 @@ package pairmatching.controller;
 import static pairmatching.handler.ExceptionHandler.*;
 
 import java.util.List;
-import java.util.function.Supplier;
 import pairmatching.file.CrewReader;
-import pairmatching.handler.ExceptionHandler;
 import pairmatching.model.BackendCrew;
 import pairmatching.model.FrontendCrew;
 import pairmatching.model.FunctionNumber;
+import pairmatching.model.MissionInfo;
+import pairmatching.model.MissionParser;
 import pairmatching.service.MatchingService;
 import pairmatching.view.InputView;
 
@@ -16,11 +16,13 @@ public class MatchingController {
 
     private final CrewReader crewReader;
     private final InputView inputView;
+    private final MissionParser missionParser;
     private final MatchingService matchingService;
 
-    public MatchingController(CrewReader crewReader, InputView inputView, MatchingService matchingService) {
+    public MatchingController(CrewReader crewReader, InputView inputView, MissionParser missionParser, MatchingService matchingService) {
         this.crewReader = crewReader;
         this.inputView = inputView;
+        this.missionParser = missionParser;
         this.matchingService = matchingService;
     }
 
@@ -29,6 +31,12 @@ public class MatchingController {
         FrontendCrew frontendCrew = getFrontendCrew();
 
         FunctionNumber functionNumber = retryUntilSuccess(this::readFunctionNumber);
+        if (functionNumber.isNumber()) {
+            if (functionNumber.isOne()) {
+                String input = inputView.readMissionDetail();
+                MissionInfo missionInfo = missionParser.parse(input);
+            }
+        }
     }
 
     private BackendCrew getBackendCrew() {
