@@ -17,10 +17,6 @@ public class BackendCrew {
         this.crews = Collections.unmodifiableList(crews);
     }
 
-    public List<Crew> getCrews() {
-        return crews;
-    }
-
     public List<String> crewNames() {
         return crews.stream()
                 .map(Crew::getName)

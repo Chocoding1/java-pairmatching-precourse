@@ -24,14 +24,16 @@ public class MatchingService {
     public List<Pair> match(MissionInfo missionInfo, BackendCrew backendCrew, FrontendCrew frontendCrew) {
         matchingCount++;
 
-        List<Pair> pairs = new ArrayList<>();
         if (missionInfo.isBackend()) {
-            List<String> crews = backendCrew.crewNames();
-            List<String> shuffledCrew = randomMatcher.match(crews);
-            setPairs(pairs, shuffledCrew);
-            return pairs;
+            return matchPairs(backendCrew.crewNames());
         }
+        return matchPairs(frontendCrew.crewNames());
+    }
 
+    private List<Pair> matchPairs(List<String> crewNames) {
+        List<Pair> pairs = new ArrayList<>();
+        List<String> shuffledCrew = randomMatcher.match(crewNames);
+        setPairs(pairs, shuffledCrew);
         return pairs;
     }
 
