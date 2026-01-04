@@ -14,10 +14,6 @@ public class MatchingController {
     }
 
     public void run() {
-        initCrew();
-    }
-
-    private void initCrew() {
         BackendCrew backendCrew = getBackendCrew();
         FrontendCrew frontendCrew = getFrontendCrew();
     }
