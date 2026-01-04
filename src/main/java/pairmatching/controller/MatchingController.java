@@ -4,12 +4,12 @@ import static pairmatching.handler.ExceptionHandler.*;
 
 import java.util.List;
 import pairmatching.file.CrewReader;
-import pairmatching.model.BackendCrew;
-import pairmatching.model.FrontendCrew;
+import pairmatching.model.BackendGroup;
+import pairmatching.model.FrontendGroup;
 import pairmatching.model.FunctionNumber;
+import pairmatching.model.MatchingResult;
 import pairmatching.model.MissionInfo;
 import pairmatching.model.MissionParser;
-import pairmatching.model.Pair;
 import pairmatching.service.MatchingService;
 import pairmatching.view.InputView;
 import pairmatching.view.OutputView;
@@ -32,8 +32,8 @@ public class MatchingController {
     }
 
     public void run() {
-        BackendCrew backendCrew = getBackendCrew();
-        FrontendCrew frontendCrew = getFrontendCrew();
+        BackendGroup backendGroup = getBackendCrew();
+        FrontendGroup frontendGroup = getFrontendCrew();
 
         while (true) {
             FunctionNumber functionNumber = retryUntilSuccess(this::readFunctionNumber);
@@ -43,23 +43,21 @@ public class MatchingController {
             }
 
             if (functionNumber.isOne()) {
-                MissionInfo missionInfo = retryUntilSuccess(this::readMissionDetail);
-                List<Pair> pairs = matchingService.match(missionInfo, backendCrew, frontendCrew);
-                outputView.printMatchingResult(pairs);
+                matchingPair(backendGroup, frontendGroup);
                 continue;
             }
         }
 
     }
 
-    private BackendCrew getBackendCrew() {
+    private BackendGroup getBackendCrew() {
         List<String> crewName = crewReader.getBackendCrew();
-        return new BackendCrew(crewName);
+        return new BackendGroup(crewName);
     }
 
-    private FrontendCrew getFrontendCrew() {
+    private FrontendGroup getFrontendCrew() {
         List<String> crewName = crewReader.getFrontendCrew();
-        return new FrontendCrew(crewName);
+        return new FrontendGroup(crewName);
     }
 
     private FunctionNumber readFunctionNumber() {
@@ -70,5 +68,41 @@ public class MatchingController {
     private MissionInfo readMissionDetail() {
         String input = inputView.readMissionDetail();
         return missionParser.parse(input);
+    }
+
+    private void matchingPair(BackendGroup backendGroup, FrontendGroup frontendGroup) {
+        MatchingResult matchingResult;
+        do {
+            MissionInfo missionInfo = retryUntilSuccess(this::readMissionDetail);
+
+            while (true) {
+                matchingResult = matchingService.match(missionInfo, backendGroup, frontendGroup);
+
+                if (matchingResult.isSuccess()) {
+                    break;
+                }
+
+                String input = retryUntilSuccess(this::readRematch);
+                if (input.equals("네")) {
+                    matchingService.deleteMatchingResult(missionInfo);
+                    continue;
+                }
+                break;
+            }
+        } while (!matchingResult.isSuccess());
+
+        outputView.printMatchingResult(matchingResult);
+    }
+
+    private String readRematch() {
+        String input = inputView.readRematch();
+        validateRematchInput(input);
+        return input;
+    }
+
+    private void validateRematchInput(String input) {
+        if (!input.equals("네") && !input.equals("아니오")) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력값입니다.");
+        }
     }
 }

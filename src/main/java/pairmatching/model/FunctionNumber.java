@@ -9,15 +9,6 @@ public class FunctionNumber {
         this.function = inputFunction;
     }
 
-    public boolean isNumber() {
-        try {
-            Integer.parseInt(function);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
     public boolean isOne() {
         return Integer.parseInt(function) == 1;
     }

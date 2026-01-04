@@ -1,5 +1,7 @@
 package pairmatching.model;
 
+import java.util.Objects;
+
 public class MissionInfo {
 
     private final Course course;
@@ -14,5 +16,27 @@ public class MissionInfo {
 
     public boolean isBackend() {
         return course == Course.BACKEND;
+    }
+
+    public boolean isSameLevel(Level level) {
+        return this.level == level;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MissionInfo that = (MissionInfo) o;
+        return course == that.course && level == that.level && mission == that.mission;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(course, level, mission);
     }
 }

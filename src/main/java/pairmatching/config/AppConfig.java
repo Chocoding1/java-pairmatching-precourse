@@ -2,6 +2,7 @@ package pairmatching.config;
 
 import pairmatching.controller.MatchingController;
 import pairmatching.file.CrewReader;
+import pairmatching.model.MatchingResults;
 import pairmatching.model.MissionParser;
 import pairmatching.model.RandomMatcher;
 import pairmatching.service.MatchingService;
@@ -17,6 +18,7 @@ public class AppConfig {
     private MatchingService matchingService;
     private RandomMatcher randomMatcher;
     private OutputView outputView;
+    private MatchingResults matchingResults;
 
     public MatchingController matchingController() {
         if (matchingController == null) {
@@ -49,7 +51,7 @@ public class AppConfig {
 
     private MatchingService matchingService() {
         if (matchingService == null) {
-            matchingService = new MatchingService(randomMatcher());
+            matchingService = new MatchingService(randomMatcher(), matchingResults());
         }
         return matchingService;
     }
@@ -66,5 +68,12 @@ public class AppConfig {
             outputView = new OutputView();
         }
         return outputView;
+    }
+
+    private MatchingResults matchingResults() {
+        if (matchingResults == null) {
+            matchingResults = new MatchingResults();
+        }
+        return matchingResults;
     }
 }

@@ -24,6 +24,10 @@ public class InputView {
             , "과정, 레벨, 미션을 선택하세요."
             , "ex) 백엔드, 레벨1, 자동차경주"
     );
+    private static final String REMATCH_NOTICE = String.join("\n"
+            , "매칭 정보가 있습니다. 다시 매칭하시겠습니까?"
+            , "네 | 아니오"
+    );
 
     public String readFunction() {
         System.out.println(READ_FUNCTION_NOTICE);
@@ -32,6 +36,11 @@ public class InputView {
 
     public String readMissionDetail() {
         System.out.println(READ_MISSION_DETAIL_NOTICE);
+        return Console.readLine();
+    }
+
+    public String readRematch() {
+        System.out.println(REMATCH_NOTICE);
         return Console.readLine();
     }
 }
