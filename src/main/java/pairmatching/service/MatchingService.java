@@ -105,4 +105,8 @@ public class MatchingService {
     private boolean isAlreadyCrew(MissionInfo missionInfo, Crew firstCrew, Crew secondCrew) {
         return firstCrew.isAlreadyCrew(missionInfo, secondCrew);
     }
+
+    public MatchingResult findMatchingResultByMissionInfo(MissionInfo missionInfo) {
+        return matchingResults.findByMissionInfo(missionInfo);
+    }
 }

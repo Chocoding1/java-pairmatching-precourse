@@ -47,6 +47,12 @@ public class MatchingController {
                 outputView.printMatchingResult(matchingResult);
                 continue;
             }
+
+            if (functionNumber.isTwo()) {
+                MatchingResult matchingResult = retryUntilSuccess(this::findMatchingResult);
+                outputView.printMatchingResult(matchingResult);
+                continue;
+            }
         }
 
     }
@@ -93,6 +99,11 @@ public class MatchingController {
         } while (!matchingResult.isSuccess());
 
         return matchingResult;
+    }
+
+    private MatchingResult findMatchingResult() {
+        MissionInfo missionInfo = retryUntilSuccess(this::readMissionDetail);
+        return matchingService.findMatchingResultByMissionInfo(missionInfo);
     }
 
     private String readRematch() {

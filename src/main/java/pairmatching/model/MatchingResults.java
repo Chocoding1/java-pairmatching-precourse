@@ -33,4 +33,13 @@ public class MatchingResults {
             }
         }
     }
+
+    public MatchingResult findByMissionInfo(MissionInfo missionInfo) {
+        for (MatchingResult matchingResult : matchingResults) {
+            if (matchingResult.isSameInfo(missionInfo)) {
+                return matchingResult;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 매칭 이력이 없습니다.");
+    }
 }

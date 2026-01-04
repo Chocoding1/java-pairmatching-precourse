@@ -13,6 +13,10 @@ public class FunctionNumber {
         return Integer.parseInt(function) == 1;
     }
 
+    public boolean isTwo() {
+        return Integer.parseInt(function) == 2;
+    }
+
     public boolean isQuit() {
         return function.equals("Q");
     }
