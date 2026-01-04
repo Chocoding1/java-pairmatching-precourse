@@ -6,6 +6,7 @@ import pairmatching.model.MissionParser;
 import pairmatching.model.RandomMatcher;
 import pairmatching.service.MatchingService;
 import pairmatching.view.InputView;
+import pairmatching.view.OutputView;
 
 public class AppConfig {
 
@@ -15,10 +16,12 @@ public class AppConfig {
     private MissionParser missionParser;
     private MatchingService matchingService;
     private RandomMatcher randomMatcher;
+    private OutputView outputView;
 
     public MatchingController matchingController() {
         if (matchingController == null) {
-            matchingController = new MatchingController(crewReader(), inputView(), missionParser(), matchingService());
+            matchingController = new MatchingController(crewReader(), inputView(), missionParser(), matchingService(),
+                    outputView());
         }
         return matchingController;
     }
@@ -56,5 +59,12 @@ public class AppConfig {
             randomMatcher = new RandomMatcher();
         }
         return randomMatcher;
+    }
+
+    private OutputView outputView() {
+        if (outputView == null) {
+            outputView = new OutputView();
+        }
+        return outputView;
     }
 }

@@ -13,4 +13,8 @@ public class Pair {
     public void addCrew(String name) {
         crews.add(name);
     }
+
+    public List<String> getCrews() {
+        return crews;
+    }
 }

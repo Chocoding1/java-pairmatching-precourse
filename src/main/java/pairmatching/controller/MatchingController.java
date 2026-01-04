@@ -12,6 +12,7 @@ import pairmatching.model.MissionParser;
 import pairmatching.model.Pair;
 import pairmatching.service.MatchingService;
 import pairmatching.view.InputView;
+import pairmatching.view.OutputView;
 
 public class MatchingController {
 
@@ -19,25 +20,33 @@ public class MatchingController {
     private final InputView inputView;
     private final MissionParser missionParser;
     private final MatchingService matchingService;
+    private final OutputView outputView;
 
     public MatchingController(CrewReader crewReader, InputView inputView, MissionParser missionParser,
-                              MatchingService matchingService) {
+                              MatchingService matchingService, OutputView outputView) {
         this.crewReader = crewReader;
         this.inputView = inputView;
         this.missionParser = missionParser;
         this.matchingService = matchingService;
+        this.outputView = outputView;
     }
 
     public void run() {
         BackendCrew backendCrew = getBackendCrew();
         FrontendCrew frontendCrew = getFrontendCrew();
 
-        FunctionNumber functionNumber = retryUntilSuccess(this::readFunctionNumber);
-        while (!functionNumber.isQuit()) {
+        while (true) {
+            FunctionNumber functionNumber = retryUntilSuccess(this::readFunctionNumber);
+
+            if (functionNumber.isQuit()) {
+                break;
+            }
+
             if (functionNumber.isOne()) {
                 MissionInfo missionInfo = retryUntilSuccess(this::readMissionDetail);
                 List<Pair> pairs = matchingService.match(missionInfo, backendCrew, frontendCrew);
-
+                outputView.printMatchingResult(pairs);
+                continue;
             }
         }
 
