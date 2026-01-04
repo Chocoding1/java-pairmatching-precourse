@@ -43,7 +43,8 @@ public class MatchingController {
             }
 
             if (functionNumber.isOne()) {
-                matchingPair(backendGroup, frontendGroup);
+                MatchingResult matchingResult = retryUntilSuccess(() -> matchingPair(backendGroup, frontendGroup));
+                outputView.printMatchingResult(matchingResult);
                 continue;
             }
         }
@@ -70,7 +71,7 @@ public class MatchingController {
         return missionParser.parse(input);
     }
 
-    private void matchingPair(BackendGroup backendGroup, FrontendGroup frontendGroup) {
+    private MatchingResult matchingPair(BackendGroup backendGroup, FrontendGroup frontendGroup) {
         MatchingResult matchingResult;
         do {
             MissionInfo missionInfo = retryUntilSuccess(this::readMissionDetail);
@@ -91,7 +92,7 @@ public class MatchingController {
             }
         } while (!matchingResult.isSuccess());
 
-        outputView.printMatchingResult(matchingResult);
+        return matchingResult;
     }
 
     private String readRematch() {
