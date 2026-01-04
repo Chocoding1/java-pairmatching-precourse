@@ -33,8 +33,8 @@ public class MatchingController {
         FunctionNumber functionNumber = retryUntilSuccess(this::readFunctionNumber);
         if (functionNumber.isNumber()) {
             if (functionNumber.isOne()) {
-                String input = inputView.readMissionDetail();
-                MissionInfo missionInfo = missionParser.parse(input);
+                MissionInfo missionInfo = retryUntilSuccess(this::readMissionDetail);
+
             }
         }
     }
@@ -52,5 +52,10 @@ public class MatchingController {
     private FunctionNumber readFunctionNumber() {
         String inputFunction = inputView.readFunction();
         return new FunctionNumber(inputFunction);
+    }
+
+    private MissionInfo readMissionDetail() {
+        String input = inputView.readMissionDetail();
+        return missionParser.parse(input);
     }
 }
