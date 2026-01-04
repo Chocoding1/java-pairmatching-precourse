@@ -14,16 +14,20 @@ public class MatchingController {
     }
 
     public void run() {
-        BackendCrew backendCrew = setBackendCrew();
-        FrontendCrew frontendCrew = setFrontendCrew();
+        initCrew();
     }
 
-    private BackendCrew setBackendCrew() {
+    private void initCrew() {
+        BackendCrew backendCrew = getBackendCrew();
+        FrontendCrew frontendCrew = getFrontendCrew();
+    }
+
+    private BackendCrew getBackendCrew() {
         List<String> crewName = crewReader.getBackendCrew();
         return new BackendCrew(crewName);
     }
 
-    private FrontendCrew setFrontendCrew() {
+    private FrontendCrew getFrontendCrew() {
         List<String> crewName = crewReader.getFrontendCrew();
         return new FrontendCrew(crewName);
     }
