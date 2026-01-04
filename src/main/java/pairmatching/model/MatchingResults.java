@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MatchingResults {
 
-    private final List<MatchingResult> matchingResults;
+    private List<MatchingResult> matchingResults;
 
     public MatchingResults() {
         this.matchingResults = new ArrayList<>();
@@ -41,5 +41,12 @@ public class MatchingResults {
             }
         }
         throw new IllegalArgumentException("[ERROR] 매칭 이력이 없습니다.");
+    }
+
+    public void reset() {
+        for (MatchingResult matchingResult : matchingResults) {
+            matchingResult.deleteAllPairLog();
+            matchingResults = new ArrayList<>();
+        }
     }
 }

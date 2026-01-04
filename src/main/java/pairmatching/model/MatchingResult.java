@@ -32,4 +32,10 @@ public class MatchingResult {
             pair.deletePairLog(missionInfo);
         }
     }
+
+    public void deleteAllPairLog() {
+        for (Pair pair : pairs) {
+            pair.resetPairLog();
+        }
+    }
 }

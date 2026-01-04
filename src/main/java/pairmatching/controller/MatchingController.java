@@ -53,6 +53,11 @@ public class MatchingController {
                 outputView.printMatchingResult(matchingResult);
                 continue;
             }
+
+            if (functionNumber.isThree()) {
+                matchingService.resetMatchingResults();
+                outputView.printResetSuccess();
+            }
         }
 
     }

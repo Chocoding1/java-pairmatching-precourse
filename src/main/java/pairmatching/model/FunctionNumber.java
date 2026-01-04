@@ -17,6 +17,10 @@ public class FunctionNumber {
         return Integer.parseInt(function) == 2;
     }
 
+    public boolean isThree() {
+        return Integer.parseInt(function) == 3;
+    }
+
     public boolean isQuit() {
         return function.equals("Q");
     }

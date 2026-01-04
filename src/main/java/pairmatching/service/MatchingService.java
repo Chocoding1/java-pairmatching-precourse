@@ -57,6 +57,14 @@ public class MatchingService {
         matchingResults.deleteResult(missionInfo);
     }
 
+    public MatchingResult findMatchingResultByMissionInfo(MissionInfo missionInfo) {
+        return matchingResults.findByMissionInfo(missionInfo);
+    }
+
+    public void resetMatchingResults() {
+        matchingResults.reset();
+    }
+
     private void checkMatchingCount(int matchingCount) {
         if (matchingCount == 3) {
             throw new IllegalArgumentException("[ERROR] 매칭할 수 있는 경우의 수가 존재하지 않습니다.");
@@ -104,9 +112,5 @@ public class MatchingService {
 
     private boolean isAlreadyCrew(MissionInfo missionInfo, Crew firstCrew, Crew secondCrew) {
         return firstCrew.isAlreadyCrew(missionInfo, secondCrew);
-    }
-
-    public MatchingResult findMatchingResultByMissionInfo(MissionInfo missionInfo) {
-        return matchingResults.findByMissionInfo(missionInfo);
     }
 }

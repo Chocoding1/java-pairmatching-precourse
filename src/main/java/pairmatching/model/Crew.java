@@ -8,7 +8,7 @@ public class Crew {
 
     private final Course course;
     private final String name;
-    private final List<PairInfo> pairLog;
+    private List<PairInfo> pairLog;
 
     public Crew(Course course, String name) {
         this.course = course;
@@ -60,6 +60,10 @@ public class Crew {
                 break;
             }
         }
+    }
+
+    public void resetPairLog() {
+        pairLog = new ArrayList<>();
     }
 
     @Override

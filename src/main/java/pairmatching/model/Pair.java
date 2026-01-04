@@ -1,5 +1,6 @@
 package pairmatching.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +10,7 @@ public class Pair {
     private final List<Crew> crews;
 
     public Pair(List<Crew> crews) {
-        this.crews = crews;
+        this.crews = new ArrayList<>(crews);
     }
 
     public void addCrew(Crew crew) {
@@ -49,6 +50,27 @@ public class Pair {
 
             thirdCrew.deletePairInfo(firstCrew, missionInfo);
             thirdCrew.deletePairInfo(secondCrew, missionInfo);
+        }
+    }
+
+    public void resetPairLog() {
+        if (crews.size() == 2) {
+            Crew firstCrew = crews.get(0);
+            Crew secondCrew = crews.get(1);
+
+            firstCrew.resetPairLog();
+            secondCrew.resetPairLog();
+            return;
+        }
+
+        if (crews.size() == 3) {
+            Crew firstCrew = crews.get(0);
+            Crew secondCrew = crews.get(1);
+            Crew thirdCrew = crews.get(2);
+
+            firstCrew.resetPairLog();
+            secondCrew.resetPairLog();
+            thirdCrew.resetPairLog();
         }
     }
 }
