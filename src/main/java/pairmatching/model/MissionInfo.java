@@ -11,4 +11,8 @@ public class MissionInfo {
         this.level = level;
         this.mission = mission;
     }
+
+    public boolean isBackend() {
+        return course == Course.BACKEND;
+    }
 }

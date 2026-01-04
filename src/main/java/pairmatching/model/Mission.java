@@ -1,7 +1,7 @@
 package pairmatching.model;
 
 public enum Mission {
-    CAR_RACE("자동차 경주", Level.LEVEL1),
+    CAR_RACE("자동차경주", Level.LEVEL1),
     LOTTO("로또", Level.LEVEL1),
     NUMBER_BASEBALL("숫자야구게임", Level.LEVEL1),
 

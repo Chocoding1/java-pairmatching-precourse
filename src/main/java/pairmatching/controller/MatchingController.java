@@ -9,6 +9,7 @@ import pairmatching.model.FrontendCrew;
 import pairmatching.model.FunctionNumber;
 import pairmatching.model.MissionInfo;
 import pairmatching.model.MissionParser;
+import pairmatching.model.Pair;
 import pairmatching.service.MatchingService;
 import pairmatching.view.InputView;
 
@@ -19,7 +20,8 @@ public class MatchingController {
     private final MissionParser missionParser;
     private final MatchingService matchingService;
 
-    public MatchingController(CrewReader crewReader, InputView inputView, MissionParser missionParser, MatchingService matchingService) {
+    public MatchingController(CrewReader crewReader, InputView inputView, MissionParser missionParser,
+                              MatchingService matchingService) {
         this.crewReader = crewReader;
         this.inputView = inputView;
         this.missionParser = missionParser;
@@ -31,12 +33,14 @@ public class MatchingController {
         FrontendCrew frontendCrew = getFrontendCrew();
 
         FunctionNumber functionNumber = retryUntilSuccess(this::readFunctionNumber);
-        if (functionNumber.isNumber()) {
+        while (!functionNumber.isQuit()) {
             if (functionNumber.isOne()) {
                 MissionInfo missionInfo = retryUntilSuccess(this::readMissionDetail);
+                List<Pair> pairs = matchingService.match(missionInfo, backendCrew, frontendCrew);
 
             }
         }
+
     }
 
     private BackendCrew getBackendCrew() {

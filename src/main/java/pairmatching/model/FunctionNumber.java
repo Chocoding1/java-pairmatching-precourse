@@ -22,6 +22,9 @@ public class FunctionNumber {
         return Integer.parseInt(function) == 1;
     }
 
+    public boolean isQuit() {
+        return function.equals("Q");
+    }
 
     private void validateFunction(String inputFunction) {
         if (isInteger(inputFunction)) {
